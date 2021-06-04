@@ -1,5 +1,7 @@
 import React from 'react'
 import './style/Metadata.scss'
+import Play from '../assets/static/play.jsx'
+import Pause from '../assets/static/Pause.jsx'
 import imagen from '../assets/static/paradise_portada.jpg'
 import Cancion from '../assets/static/Paradise(Preview).mp3'
 import { useState, useRef, useEffect } from 'react'
@@ -57,12 +59,12 @@ const Metadata = (props) =>{
             <div className="stream__control-bg">
               <audio src={Cancion} ref={audioRef} type="audio/mpeg" id="audio" className="player-audio"></audio>
               <div onClick={togglePlaying} className="stream__controls">
-                {playing ? "Pause" : "Play"}
+                {playing ? <Pause/> : <Play/>}
               </div>
             </div>
           </div>
-          <div className="track_List" onclick={togglePlaying}>
-            <div className="track__Name" onClick={togglePlaying}>{props.titleTrack}</div>
+          <div className="track_List" onClick={togglePlaying}>
+            <div className="track__Name">{props.titleTrack}</div>
             <div className="track__Time right-5rem">{"0:00"}</div>
           </div>
           <div className="tracklist__footer">Audio samples provided courtesy of iTunes</div>   
