@@ -27,13 +27,16 @@ function useInterval(callback, delay){
 const Metadata = (props) =>{
   const [playing, setPlaying] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [timeProgress, setTimeProgress] = useState(0)
+  const [duration, setDuration] = useState(0)
   const audioRef = useRef(null)
   const togglePlaying = () => setPlaying(prev => !prev)
-
+  
   useEffect(()=>{
     if(audioRef && audioRef.current){
       if(playing) {
-      audioRef.current.play();}
+        audioRef.current.play();
+      }
       else {audioRef.current.pause();}
     }
   },[playing])
@@ -44,6 +47,27 @@ const Metadata = (props) =>{
       setProgress(Math.ceil((currentTime * 100) / duration))
     }
   })
+
+  useEffect(()=>{
+    let intervalTime = setInterval(()=>{
+      if(audioRef && audioRef.current){
+        const {currentTime} = audioRef.current
+        let ceil = Math.ceil(currentTime)
+        if(ceil===30){
+          clearInterval(intervalTime)
+          setDuration(ceil)
+          console.log(ceil)
+          ceil = 0
+        }
+        if(ceil<10){
+          ceil = `0${ceil}`
+        }
+        setTimeProgress(ceil)
+      }
+    },1000)
+
+  },[])
+
 
 
   return(
@@ -59,13 +83,13 @@ const Metadata = (props) =>{
             <div className="stream__control-bg">
               <audio src={Cancion} ref={audioRef} type="audio/mpeg" id="audio" className="player-audio"></audio>
               <div onClick={togglePlaying} className="stream__controls">
-                {playing ? <Pause/> : <Play/>}
+                {!playing || duration === 30 ? <Play/> : <Pause/>}
               </div>
             </div>
           </div>
           <div className="track_List" onClick={togglePlaying}>
             <div className="track__Name">{props.titleTrack}</div>
-            <div className="track__Time right-5rem">{"0:00"}</div>
+            <div className="track__Time right-5rem">0:{timeProgress}</div>
           </div>
           <div className="tracklist__footer">Audio samples provided courtesy of iTunes</div>   
         </div>

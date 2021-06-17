@@ -14,7 +14,7 @@ function App() {
         <Header/>
         <Title name="Nigel" trackName="PARADISE"/>
         <Main />
-        <FooterLanding />
+        <FooterLanding copyright="Nigel &copy;  All rights reserved 2021"/>
       </Landing>
     </div>
   );

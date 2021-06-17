@@ -1,15 +1,15 @@
 .landing{
   width: 100vw;
-  height: 100%;
-  background-color: #ccc ;
+  min-height: 100vh;
   background-image: url('../../components/assets/static/paradise_portada_fondo.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
+  position: relative;
   
   @media (max-width: 800px){
-    height: 100%;
+    height: auto;
 
   }
 }
