@@ -4,6 +4,7 @@ import Play from '../assets/static/play.jsx'
 import Pause from '../assets/static/Pause.jsx'
 import imagen from '../assets/static/paradise_portada.jpg'
 import Cancion from '../assets/static/Paradise(Preview).mp3'
+import equalizer from '../assets/static/equalizer.gif'
 import { useState, useRef, useEffect } from 'react'
 
 function useInterval(callback, delay){
@@ -25,21 +26,59 @@ function useInterval(callback, delay){
 }
 
 const Metadata = (props) =>{
-  const [playing, setPlaying] = useState(0)
+  const [playing, setPlaying] = useState(1)
   const [progress, setProgress] = useState(0)
   const [timeProgress, setTimeProgress] = useState(0)
   const [duration, setDuration] = useState(0)
   const audioRef = useRef(null)
-  const togglePlaying = () => setPlaying(prev => !prev)
-  
-  useEffect(()=>{
-    if(audioRef && audioRef.current){
-      if(playing) {
-        audioRef.current.play();
-      }
-      else {audioRef.current.pause();}
+  const togglePlaying = (prev) =>{
+    const {currentTime} = audioRef.current
+    let intervalTime = setInterval(()=>{
+      const {currentTime} = audioRef.current
+    let ceil = Math.ceil(currentTime)
+        if(ceil >= 30){
+          console.log(ceil)
+          clearInterval(intervalTime)
+          ceil = 0
+          setDuration(ceil)
+          console.log(ceil)
+        }
+        if(ceil<10){
+          ceil = `0${ceil}`
+        }
+        setTimeProgress(ceil)
+        console.log(ceil)
+      },1000)
+    if(currentTime > 29 ){
+      setPlaying(false) 
     }
-  },[playing])
+    if(duration === 30){
+      let dur = 0
+      setDuration(dur)
+    }
+    if(playing || prev) {
+      audioRef.current.play();
+      prev = !prev
+      setPlaying(prev)
+      // clearInterval(intervalTime)
+    }
+    if(!playing){
+      audioRef.current.pause();
+      let bulean = true
+      setPlaying(bulean)
+    }
+    
+    console.log(playing)
+  } 
+  // useEffect(()=>{
+  //   if(audioRef && audioRef.current){
+  //     if(playing) {
+  //       audioRef.current.play();
+  //     }
+  //     else {audioRef.current.pause();}
+  //   }
+  // },[playing])
+  
   
   useInterval(()=> {
     if(audioRef && audioRef.current){
@@ -52,12 +91,15 @@ const Metadata = (props) =>{
     let intervalTime = setInterval(()=>{
       if(audioRef && audioRef.current){
         const {currentTime} = audioRef.current
+        console.log(currentTime)
         let ceil = Math.ceil(currentTime)
-        if(ceil===30){
+        if(ceil >= 30){
+          console.log(ceil)
           clearInterval(intervalTime)
+          ceil = 0
           setDuration(ceil)
           console.log(ceil)
-          ceil = 0
+          setPlaying(true)
         }
         if(ceil<10){
           ceil = `0${ceil}`
@@ -65,11 +107,7 @@ const Metadata = (props) =>{
         setTimeProgress(ceil)
       }
     },1000)
-
   },[])
-
-
-
   return(
     <div className="metadataContainer">
       <img src={imagen}  className="metadata__img" alt="AlbumPicture"/>
@@ -83,18 +121,18 @@ const Metadata = (props) =>{
             <div className="stream__control-bg">
               <audio src={Cancion} ref={audioRef} type="audio/mpeg" id="audio" className="player-audio"></audio>
               <div onClick={togglePlaying} className="stream__controls">
-                {!playing || duration === 30 ? <Play/> : <Pause/>}
+                {playing || duration === 30 ? <Play/> : <Pause/>}
               </div>
             </div>
           </div>
           <div className="track_List" onClick={togglePlaying}>
             <div className="track__Name">{props.titleTrack}</div>
             <div className="track__Time right-5rem">0:{timeProgress}</div>
+            <img src={playing || duration === 30 ?  "": equalizer  }   className="equalizerIcon" />
           </div>
-          <div className="tracklist__footer">Audio samples provided courtesy of iTunes</div>   
+          <div className="tracklist__footer"></div>   
         </div>
-       
-        
+
       </div>
     </div>
   )
