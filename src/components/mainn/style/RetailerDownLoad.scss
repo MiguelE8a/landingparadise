@@ -1,0 +1,23 @@
+.ReateilerDownLoad-container{
+  width: 32rem;
+  height: 8.3rem;
+  background: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  
+  .ReateilerDownLoad-container__text{
+    font-size: 3rem;
+    color:#373d47;
+    
+  }
+}
+.ReateilerDownLoad-container:hover  {
+  transition: 0.7s;
+  background: #373d47;
+}
+.ReateilerDownLoad-container:hover .ReateilerDownLoad-container__text {
+  transition: 0.7s;
+  color: #ccc;
+}

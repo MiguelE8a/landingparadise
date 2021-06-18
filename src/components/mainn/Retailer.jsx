@@ -1,6 +1,7 @@
 import React from 'react'
 import './style/Retailer.scss'
 import Retailerli from './Retailer_li.jsx'
+import RetailerDownload from './RetailerDownload.jsx'
 import logoSpotify from './static/spotifylogo.png'
 import Deezerlogo from './static/deezerlogo.png'
 import ApleMusiclogo from './static/applemusiclogo.png'
@@ -37,9 +38,8 @@ const Retailer = () =>(
       image={SoundCloudLogo}
       url="https://soundcloud.com/deejaynigel/paradise"
       />
-      <Retailerli 
-      title="Free Download"
-      image={OficialStore}
+      <RetailerDownload 
+      title = "Download"
       url="https://show.co/RLcKEW2"
       />
      
